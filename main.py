@@ -5,16 +5,16 @@ import pandas as pd
 
 # LLM configuration, please refer to the README of qwen-agent
 llm_cfg = {
-        'model': './Qwen3-Next-80B-A3B-Instruct',
-        'model_server': 'http://10.202.236.93:8000/v1',
+        'model': 'your local model name',
+        'model_server': 'your local model address',
         # 'api_key': 'YOUR_DASHSCOPE_API_KEY',  # Will use DASHSCOPE_API_KEY environment variable
         'generate_cfg': {
             'max_input_tokens': 100000,
-            'temperature': 1.0
+            'temperature': 0.7
             }
 }
 # Your name
-exclude_author = "Gang Pan"
+exclude_author = "Your name"
 # Criterion for a influential author, stated in a list
 author_standard = '''
     1. A fellow of the national academy of science or engineering in China, US, Europe or Singapore
