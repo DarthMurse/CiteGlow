@@ -1,5 +1,5 @@
-from .filter import one_folder
-from .filter_comment import process_papers
+from filter import one_folder
+from filter_comment import process_papers
 import os
 import pandas as pd
 
@@ -36,7 +36,7 @@ def main():
             # save filtered_paper.json to name folder
             one_folder(name, llm_cfg, exclude_author, author_standard, inst_standard, pub_standard)
     for name in os.listdir():
-        if os.path.isdir(name) and os.path.exists(name + "/title.txt"):
+        if os.path.isdir(name) and os.path.exists(name + "/filtered_papers.json"):
             # save positive_comments.csv to name folder
             process_papers(name, llm_cfg) 
 

@@ -327,8 +327,6 @@ def process_papers(folder, llm_cfg):
     
     # Get the title of the given paper
     target_paper_title = get_paper_title(folder)
-    paper_index = pd.read_csv("../papers.csv")
-    index = paper_index.index[paper_index["文章名字"] == target_paper_title].tolist()[0]
 
     print(f"Target paper title: {target_paper_title}")
     
@@ -355,7 +353,6 @@ def process_papers(folder, llm_cfg):
                 # If positive comments found, add to results
                 if result['has_positive_comments']:
                     results.append({
-                        'index': index,
                         'target_title': target_paper_title,
                         'paper_title': result['paper_title'],
                         'author': paper['author'],
