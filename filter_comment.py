@@ -322,7 +322,7 @@ def process_single_paper(paper_file, target_paper_title, llm_cfg, folder_path):
     }
 
 
-def process_papers(folder):
+def process_papers(folder, llm_cfg):
     """Main function to process all papers and find those with positive comments"""
     
     # Get the title of the given paper
@@ -331,18 +331,6 @@ def process_papers(folder):
     index = paper_index.index[paper_index["文章名字"] == target_paper_title].tolist()[0]
 
     print(f"Target paper title: {target_paper_title}")
-    
-    # Configure LLM (using DashScope by default)
-    llm_cfg = {
-        'model': './Qwen3-Next-80B-A3B-Instruct',
-        'model_server': 'http://10.202.236.93:8000/v1',
-        # 'api_key': 'YOUR_DASHSCOPE_API_KEY',  # Will use DASHSCOPE_API_KEY environment variable
-        'generate_cfg': {
-            'max_input_tokens': 100000,
-            'temperature': 1.0
-            }
-    }
-    
     
     # Results to store papers with positive comments
     results = []
@@ -356,7 +344,7 @@ def process_papers(folder):
     
     # Process each paper
     for i, paper in enumerate(paper_files):
-        paper_file = paper['file'][:-1] if paper['file'][-1] == "\n" else paper['file']
+        paper_file = paper['file']
         print(f"\n--- Processing paper {i+1}/{len(paper_files)} ---")
         
         try:
@@ -370,9 +358,9 @@ def process_papers(folder):
                         'index': index,
                         'target_title': target_paper_title,
                         'paper_title': result['paper_title'],
-                        'author': paper['name'],
-                        'institution': paper['institution'],
-                        'publication': paper['publication'],
+                        'author': paper['author'],
+                        'institution': paper['inst'],
+                        'publication': paper['pub'],
                         'positive_comments': result['positive_comments']
                     })
                     print(f"✓ Found positive comments in {paper_file}")
@@ -392,15 +380,19 @@ def process_papers(folder):
         print("\nNo papers with positive comments found.")
 
 def main():
+    process_papers("Example")
+    '''
     for name in os.listdir():
         if os.path.isdir(name) and '_' in name and os.path.exists(name + '/filtered_papers.json') and not os.path.exists(name + '/positive_comments.csv'):
             process_papers(name)
+
     df = pd.DataFrame(columns=['index', 'target_title', 'paper_title', 'author', 'institution', 'publication', 'positive_comments'])
     for name in os.listdir():
         if os.path.isdir(name) and '_' in name and os.path.exists(name + '/positive_comments.csv'):
             new_df = pd.read_csv(name + '/positive_comments.csv')
             df = pd.concat([df, new_df], ignore_index=True)
     df.to_csv("final.csv")
+    '''
 
 if __name__ == "__main__":
     main()
