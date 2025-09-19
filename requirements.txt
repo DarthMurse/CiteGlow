@@ -1,0 +1,8 @@
+qwen-agent
+PyPDF2
+python-dotenv
+pandas
+requests
+scholarly
+arxiv
+selenium
